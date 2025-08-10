@@ -22,19 +22,16 @@ metadata {
         capability "Actuator"
         capability "Battery"
         capability "Button"
-        capability "Holdable Button"        
+        capability "Holdable Button"
         capability "Configuration"
         capability "Refresh"
         capability "Sensor"
         capability "Health Check"
 
-        command "enrollResponse"
-
-        fingerprint inClusters: "0000, 0001, 0003, 0020, 0402, 0B05", outClusters: "0003, 0006, 0008, 0019", manufacturer: "OSRAM", model: "LIGHTIFY Dimming Switch", deviceJoinName: "OSRAM LIGHTIFY Dimming Switch"
-        fingerprint inClusters: "0000, 0001, 0003, 0020, 0402, 0B05", outClusters: "0003, 0006, 0008, 0019", manufacturer: "CentraLite", model: "3130", deviceJoinName: "Centralite Zigbee Smart Switch"
-        fingerprint inClusters: "0000, 0001, 0003, 0020, 0500", outClusters: "0003,0019", manufacturer: "CentraLite", model: "3455-L", deviceJoinName: "Iris Care Pendant"
-        fingerprint inClusters: "0000, 0001, 0003, 0007, 0020, 0402, 0B05", outClusters: "0003, 0006, 0019", manufacturer: "CentraLite", model: "3460-L", deviceJoinName: "Iris Smart Button"
-        fingerprint inClusters: "0000, 0001, 0003, 0007, 0020, 0B05", outClusters: "0003, 0006, 0019", manufacturer: "CentraLite", model:"3450-L", deviceJoinName: "Iris KeyFob"
+        fingerprint inClusters: "0000, 0001, 0003, 0020, 0402, 0B05", outClusters: "0003, 0006, 0008, 0019", manufacturer: "OSRAM", model: "LIGHTIFY Dimming Switch", deviceJoinName: "OSRAM Button" //OSRAM LIGHTIFY Dimming Switch
+        fingerprint inClusters: "0000, 0001, 0003, 0020, 0402, 0B05", outClusters: "0003, 0006, 0008, 0019", manufacturer: "CentraLite", model: "3130", deviceJoinName: "Centralite Button" //Centralite Zigbee Smart Switch
+        fingerprint inClusters: "0000, 0001, 0003, 0020, 0500", outClusters: "0003,0019", manufacturer: "CentraLite", model: "3455-L", deviceJoinName: "Iris Button" //Iris Care Pendant
+        fingerprint inClusters: "0000, 0001, 0003, 0007, 0020, 0402, 0B05", outClusters: "0003, 0006, 0019", manufacturer: "CentraLite", model: "3460-L", deviceJoinName: "Iris Button" //Iris Smart Button
     }
 
     simulator {}
@@ -150,7 +147,7 @@ private Map parseNonIasButtonMessage(Map descMap){
                     button = 2
                     break
             }
-        
+
             getButtonResult("release", button)
         }
     }
@@ -194,6 +191,9 @@ def refresh() {
 
 def configure() {
     log.debug "Configuring Reporting, IAS CIE, and Bindings."
+    if (!device.currentState("supportedButtonValues")) {
+        sendEvent(name: "supportedButtonValues", value: JsonOutput.toJson(["pushed", "held"]), displayed: false)
+    }
     def cmds = []
     if (device.getDataValue("model") == "3450-L") {
         cmds << [

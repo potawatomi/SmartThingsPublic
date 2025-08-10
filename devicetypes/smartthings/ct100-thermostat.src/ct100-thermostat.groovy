@@ -1,10 +1,15 @@
 metadata {
 	// Automatically generated. Make future change here.
-	definition (name: "CT100 Thermostat", namespace: "smartthings", author: "SmartThings") {
+	definition (name: "CT100 Thermostat", namespace: "smartthings", author: "SmartThings", mnmn: "SmartThings", vid: "SmartThings-smartthings-CT100_Thermostat") {
 		capability "Actuator"
 		capability "Temperature Measurement"
 		capability "Relative Humidity Measurement"
 		capability "Thermostat"
+		capability "Thermostat Heating Setpoint"
+		capability "Thermostat Cooling Setpoint"
+		capability "Thermostat Operating State"
+		capability "Thermostat Mode"
+		capability "Thermostat Fan Mode"
 		capability "Battery"
 		capability "Refresh"
 		capability "Sensor"
@@ -20,9 +25,9 @@ metadata {
 		command "raiseCoolSetpoint"
 		command "poll"
 
-		fingerprint deviceId: "0x08", inClusters: "0x43,0x40,0x44,0x31,0x80,0x85,0x60"
-		fingerprint mfr:"0098", prod:"6401", model:"0107", deviceJoinName: "2Gig CT100 Programmable Thermostat"
-		fingerprint mfr:"0098", prod:"6501", model:"000C", deviceJoinName: "Radio Thermostat CT101"
+		fingerprint deviceId: "0x08", inClusters: "0x43,0x40,0x44,0x31,0x80,0x85,0x60", deviceJoinName: "Thermostat"
+		fingerprint mfr:"0098", prod:"6401", model:"0107", deviceJoinName: "2Gig Thermostat" //2Gig CT100 Programmable Thermostat
+		fingerprint mfr:"0098", prod:"6501", model:"000C", deviceJoinName: "Iris Thermostat" //Radio Thermostat CT101
 	}
 
 	tiles {
